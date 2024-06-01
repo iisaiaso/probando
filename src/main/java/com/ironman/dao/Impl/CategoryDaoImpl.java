@@ -95,6 +95,7 @@ public class CategoryDaoImpl implements CategoryDao {
                     category.setName(resultSet.getString("name"));
                     category.setDescription(resultSet.getString("description"));
                     category.setUrlKey(resultSet.getString("url_key"));
+                    category.setState(resultSet.getString("state"));
 
                     Timestamp createdAt = resultSet.getTimestamp("created_at");
                     if (createdAt != null) {
@@ -112,6 +113,95 @@ public class CategoryDaoImpl implements CategoryDao {
 
         //result
         return category;
+
+    }
+
+    @Override
+    public int create(Category category) throws Exception {
+        // Attributes
+        int result = 0;
+        String sqlQuery;
+
+        // process
+        sqlQuery = "insert into categories (name, description, url_key, state, created_at) values(?, ?, ?, ?, ?)";
+
+        try (
+                // Connection
+                Connection connection = new ConnectionCore().getConnection();
+
+                // Prepare statement
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+        ) {
+            // set parameter
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setString(2, category.getDescription());
+            preparedStatement.setString(3, category.getUrlKey());
+            preparedStatement.setString(4, category.getState());
+            preparedStatement.setTimestamp(5, Timestamp.valueOf(category.getCreatedAt()));
+
+            // Execute query
+            result = preparedStatement.executeUpdate();
+        }
+
+        // Result
+        return result;
+    }
+
+    @Override
+    public int update(Long id, Category category) throws Exception {
+        // Attributes
+        int result = 0;
+        String sqlQuery;
+
+        sqlQuery = "update categories set name = ?, description = ?, url_key = ?, updated_at =? where id = ?";
+
+        // Process
+        try (
+                // Connection
+                Connection connection = new ConnectionCore().getConnection();
+
+                // Prepare statement
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        ) {
+            // set parameter
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setString(2, category.getDescription());
+            preparedStatement.setString(3, category.getUrlKey());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(category.getUpdatedAt()));
+            preparedStatement.setLong(5, id);
+
+            // Execute query
+            result = preparedStatement.executeUpdate();
+        }
+
+        //Result
+        return result;
+    }
+
+    @Override
+    public void deleteById(Long id) throws Exception {
+        // Attributes
+        String sqlQuery;
+
+        // Process
+        sqlQuery = "delete  from categories where id = ?";
+
+        try (
+                // Connection
+                Connection connection = new ConnectionCore().getConnection();
+
+                // Prepare statement
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        ) {
+            // set parameter
+            preparedStatement.setLong(1, id);
+
+            // Execute query
+            preparedStatement.executeUpdate();
+
+        }
+
 
     }
 }
