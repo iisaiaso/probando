@@ -1,4 +1,4 @@
-package com.ironman.dao;
+package com.ironman.persistence.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
