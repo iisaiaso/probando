@@ -1,6 +1,7 @@
 package com.ironman;
 
 import com.ironman.dao.CategoryDao;
+import com.ironman.dao.Impl.CategoryDaoImpl;
 import com.ironman.entity.Category;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         try {
-            CategoryDao categoryDao = new CategoryDao();
+            CategoryDao categoryDao = new CategoryDaoImpl();
 //            List<Category> categories = categoryDao.findAll();
 //
 //            System.out.println("Categories start:");
