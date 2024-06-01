@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDaoImpl implements CategoryDao {
+public class CategoryDaoImpl extends ConnectionCore implements CategoryDao {
 
     @Override
     public List<Category> findAll() throws Exception {
@@ -27,7 +27,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
         try (
                 // Get connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 // Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -38,24 +38,24 @@ public class CategoryDaoImpl implements CategoryDao {
 
             // Set data
             while (resultSet.next()) {
-                category = new Category();
-
-                category.setId(resultSet.getLong("id"));
-                category.setName(resultSet.getString("name"));
-                category.setDescription(resultSet.getString("description"));
-                category.setUrlKey(resultSet.getString("url_key"));
-                category.setState(resultSet.getString("state"));
-
-                Timestamp createdAt = resultSet.getTimestamp("created_at");
-                if (createdAt != null) {
-                    category.setCreatedAt(createdAt.toLocalDateTime());
-                }
-
-                Timestamp updatedAt = resultSet.getTimestamp("updated_at");
-                if (updatedAt != null) {
-                    category.setUpdatedAt(updatedAt.toLocalDateTime());
-                }
-
+//                category = new Category();
+//
+//                category.setId(resultSet.getLong("id"));
+//                category.setName(resultSet.getString("name"));
+//                category.setDescription(resultSet.getString("description"));
+//                category.setUrlKey(resultSet.getString("url_key"));
+//                category.setState(resultSet.getString("state"));
+//
+//                Timestamp createdAt = resultSet.getTimestamp("created_at");
+//                if (createdAt != null) {
+//                    category.setCreatedAt(createdAt.toLocalDateTime());
+//                }
+//
+//                Timestamp updatedAt = resultSet.getTimestamp("updated_at");
+//                if (updatedAt != null) {
+//                    category.setUpdatedAt(updatedAt.toLocalDateTime());
+//                }
+                category = mapResulSetToCategory(resultSet);
 
                 categories.add(category);
             }
@@ -76,7 +76,7 @@ public class CategoryDaoImpl implements CategoryDao {
         sqlQuery = "select id, name, description, url_key, state, created_at, updated_at from categories where id=?";
         try (
                 //Get connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 //Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -90,22 +90,7 @@ public class CategoryDaoImpl implements CategoryDao {
             ) {
                 // set data
                 if (resultSet.next()) {
-                    category = new Category();
-                    category.setId(resultSet.getLong("id"));
-                    category.setName(resultSet.getString("name"));
-                    category.setDescription(resultSet.getString("description"));
-                    category.setUrlKey(resultSet.getString("url_key"));
-                    category.setState(resultSet.getString("state"));
-
-                    Timestamp createdAt = resultSet.getTimestamp("created_at");
-                    if (createdAt != null) {
-                        category.setCreatedAt(createdAt.toLocalDateTime());
-                    }
-
-                    Timestamp updatedAt = resultSet.getTimestamp("updated_at");
-                    if (updatedAt != null) {
-                        category.setUpdatedAt(updatedAt.toLocalDateTime());
-                    }
+                    category = mapResulSetToCategory(resultSet);
 
                 }
             }
@@ -127,7 +112,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
         try (
                 // Connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 // Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -159,7 +144,7 @@ public class CategoryDaoImpl implements CategoryDao {
         // Process
         try (
                 // Connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 // Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -189,7 +174,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
         try (
                 // Connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 // Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -203,5 +188,30 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
 
+    }
+
+    private Category mapResulSetToCategory(ResultSet resultSet) throws Exception {
+        // Attributes
+        Category category = new Category();
+
+        // Process
+        category.setId(resultSet.getLong("id"));
+        category.setName(resultSet.getString("name"));
+        category.setDescription(resultSet.getString("description"));
+        category.setUrlKey(resultSet.getString("url_key"));
+        category.setState(resultSet.getString("state"));
+
+        Timestamp createdAt = resultSet.getTimestamp("created_at");
+        if (createdAt != null) {
+            category.setCreatedAt(createdAt.toLocalDateTime());
+        }
+
+        Timestamp updatedAt = resultSet.getTimestamp("updated_at");
+        if (updatedAt != null) {
+            category.setUpdatedAt(updatedAt.toLocalDateTime());
+        }
+
+        // Result
+        return category;
     }
 }

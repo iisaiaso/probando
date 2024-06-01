@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryStoreImpl implements CategoryDao {
+public class CategoryStoreImpl extends ConnectionCore implements CategoryDao {
     @Override
     public List<Category> findAll() throws Exception {
         // Attributes
@@ -26,7 +26,7 @@ public class CategoryStoreImpl implements CategoryDao {
 
         try (
                 // Get connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 // Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -74,7 +74,7 @@ public class CategoryStoreImpl implements CategoryDao {
         sqlQuery = "select id, name, description, url_key, state, created_at, updated_at from categories where id=?";
         try (
                 //Get connection
-                Connection connection = new ConnectionCore().getConnection();
+                Connection connection = getConnection();
 
                 //Prepare statement
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
