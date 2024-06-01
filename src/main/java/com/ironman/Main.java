@@ -9,23 +9,25 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        try {
+            CategoryDao categoryDao = new CategoryDao();
+            List<Category> categories = categoryDao.findAll();
 
-        CategoryDao categoryDao = new CategoryDao();
+            System.out.println("Categories start:");
+            for (Category category : categories) {
+                System.out.println("Id: " + category.getId());
+                System.out.println("Name: " + category.getName());
+                System.out.println("Description: " + category.getDescription());
+                System.out.println("Url key: " + category.getUrlKey());
+                System.out.println("State: " + category.getState());
+                System.out.println("Created at: " + category.getCreatedAt());
+                System.out.println();
+            }
 
-        List<Category> categories = categoryDao.findAll();
-
-        System.out.println("Categories start:");
-        for (Category category : categories) {
-            System.out.println("Id: " + category.getId());
-            System.out.println("Name: " + category.getName());
-            System.out.println("Description: " + category.getDescription());
-            System.out.println("Url key: " + category.getUrlKey());
-            System.out.println("State: " + category.getState());
-            System.out.println("Created at: " + category.getCreatedAt());
-            System.out.println();
+            System.out.println("Categories end.");
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
         }
-
-        System.out.println("Categories end.");
 
     }
 }
