@@ -1,7 +1,11 @@
 package com.ironman;
 
-import com.ironman.persistence.entity.dao.CategoryDao;
-import com.ironman.persistence.entity.dao.Impl.CategoryDaoImpl;
+import com.ironman.application.dto.category.CategoryDto;
+import com.ironman.application.dto.category.CategorySmallDto;
+import com.ironman.application.service.CategoryService;
+import com.ironman.application.service.impl.CategoryServiceImpl;
+import com.ironman.persistence.dao.CategoryDao;
+import com.ironman.persistence.dao.Impl.CategoryDaoImpl;
 import com.ironman.persistence.entity.Category;
 
 import java.util.List;
@@ -11,34 +15,41 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         try {
-            CategoryDao categoryDao = new CategoryDaoImpl();
+            // CategoryDao categoryDao = new CategoryDaoImpl();
+            CategoryService categoryService = new CategoryServiceImpl();
 
         // ReadList
-          List<Category> categories = categoryDao.findAll();
+          /*List<CategorySmallDto> categories = categoryService.findAll();
 
             System.out.println("Categories start:");
-            for (Category category : categories) {
+            for (CategorySmallDto category : categories) {
                 System.out.println("Id: " + category.getId());
                 System.out.println("Name: " + category.getName());
-                System.out.println("Description: " + category.getDescription());
-                System.out.println("Url key: " + category.getUrlKey());
-                System.out.println("State: " + category.getState());
-                System.out.println("Created at: " + category.getCreatedAt());
                 System.out.println();
-            }
+            }*/
+//            for (Category category : categories) {
+//                System.out.println("Id: " + category.getId());
+//                System.out.println("Name: " + category.getName());
+//                System.out.println("Description: " + category.getDescription());
+//                System.out.println("Url key: " + category.getUrlKey());
+//                System.out.println("State: " + category.getState());
+//                System.out.println("Created at: " + category.getCreatedAt());
+//                System.out.println();
+//            }
 
         // End List
 
         // List by id
-           /*Category category = categoryDao.findById(102L);
-
+           // Category category = categoryDao.findById(102L);
+            CategoryDto category = categoryService.findById(66L);
+            
             System.out.println("Categories start:");
             System.out.println("Id: " + category.getId());
             System.out.println("Name: " + category.getName());
             System.out.println("Description: " + category.getDescription());
             System.out.println("Url key: " + category.getUrlKey());
             System.out.println("State: " + category.getState());
-            System.out.println("Created at: " + category.getCreatedAt());*/
+            System.out.println("Created at: " + category.getCreatedAt());
 
         // End List by id
 

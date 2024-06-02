@@ -1,7 +1,7 @@
 package com.ironman.persistence.dao.Impl;
 
 import com.ironman.persistence.dao.CategoryDao;
-import com.ironman.persistence.dao.ConnectionCore;
+import com.ironman.persistence.dao.Core.ConnectionCore;
 import com.ironman.persistence.entity.Category;
 
 import java.sql.Connection;

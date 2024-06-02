@@ -1,6 +1,6 @@
 package com.ironman.persistence.dao;
 
-import com.ironman.persistence.entity.dao.Core.CrudDao;
+import com.ironman.persistence.dao.Core.CrudDao;
 import com.ironman.persistence.entity.Category;
 
 //public class CategoryDao {
